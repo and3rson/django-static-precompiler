@@ -1,6 +1,6 @@
 from static_precompiler.exceptions import StaticCompilationError
 from static_precompiler.compilers.base import BaseCompiler
-from static_precompiler.settings import LESS_EXECUTABLE
+from static_precompiler.settings import LESS_EXECUTABLE, LESS_POST_COMPILE
 from static_precompiler.utils import run_command, convert_urls
 import os
 import posixpath
@@ -40,6 +40,9 @@ class LESS(BaseCompiler):
         if errors:
             raise StaticCompilationError(errors)
 
+        if LESS_POST_COMPILE:
+            out = LESS_POST_COMPILE(out)
+
         return out
 
     def compile_source(self, source):
@@ -52,6 +55,9 @@ class LESS(BaseCompiler):
 
         if errors:
             raise StaticCompilationError(errors)
+
+        if LESS_POST_COMPILE:
+            out = LESS_POST_COMPILE(out)
 
         return out
 
